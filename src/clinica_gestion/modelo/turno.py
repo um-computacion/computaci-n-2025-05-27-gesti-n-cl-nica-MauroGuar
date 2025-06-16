@@ -24,9 +24,9 @@ class Turno:
     def __str__(self) -> str:
         return (
             f"Turno(\n"
-            f"{str(self.__paciente__)}," "\n"
-            f"{str(self.__medico__)}," "\n"
-            f"{self.__fecha_hora__}," "\n"
-            f"{self.__nombre_especialidad_atendida__}\n"
+            f"  {str(self.__paciente__)},\n"
+            f"  {str(self.__medico__)},\n"
+            f"  {self.__fecha_hora__},\n"
+            f"  {self.__nombre_especialidad_atendida__}\n"
             f")"
         )
