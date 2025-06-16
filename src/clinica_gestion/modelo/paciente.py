@@ -8,4 +8,4 @@ class Paciente:
         return self.__dni__
 
     def __str__(self) -> str:
-        return f"Paciente: {self.__nombre__}, {self.__dni__}, {self.__fecha_nacimiento__}"
+        return f"{self.__nombre__}, {self.__dni__}, {self.__fecha_nacimiento__}"

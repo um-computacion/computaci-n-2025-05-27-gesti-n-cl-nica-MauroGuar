@@ -26,4 +26,4 @@ class Medico:
         else:
             especialidades_str = f"[{', '.join(str(esp) for esp in self.__especialidades__)}]"
 
-        return f"Medico: {self.__nombre__}, Matrícula: {self.__matricula__}, Especialidades: {especialidades_str}"
+        return f"Medico: {self.__nombre__}, {self.__matricula__}, Especialidades: {especialidades_str}"

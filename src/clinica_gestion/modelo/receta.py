@@ -9,6 +9,9 @@ class Receta:
         self.__medicamentos__: list[str] = medicamentos
         self.__fecha__: datetime = fecha
 
+    def obtener_fecha_emision(self) -> datetime:
+        return self.__fecha__
+
     def __str__(self) -> str:
         return (
             f"Receta(\n"

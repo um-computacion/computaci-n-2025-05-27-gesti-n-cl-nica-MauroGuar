@@ -50,13 +50,13 @@ class TestMedico(unittest.TestCase):
 
     def test_representacion_str_medico_sin_especialidades(self):
         medico = Medico("Dr. Hugo Huesos", "MAT221")
-        self.assertEqual(str(medico), "Medico: Dr. Hugo Huesos, Matrícula: MAT221, Especialidades: Ninguna")
+        self.assertEqual(str(medico), "Medico: Dr. Hugo Huesos, MAT221, Especialidades: Ninguna")
 
     def test_representacion_str_medico_con_una_especialidad(self):
         medico = Medico("Dra. Irene Irizarry", "MAT332")
         especialidad_endo = Especialidad("Endocrinología", ["martes", "viernes"])
         medico.agregar_especialidad(especialidad_endo)
-        esperado = "Medico: Dra. Irene Irizarry, Matrícula: MAT332, Especialidades: [Endocrinología (Días: martes, viernes)]"
+        esperado = "Medico: Dra. Irene Irizarry, MAT332, Especialidades: [Endocrinología (Días: martes, viernes)]"
         self.assertEqual(str(medico), esperado)
 
     def test_representacion_str_medico_con_multiples_especialidades(self):
@@ -65,5 +65,5 @@ class TestMedico(unittest.TestCase):
         especialidad2 = Especialidad("Otorrinolaringología", ["jueves", "viernes"])
         medico.agregar_especialidad(especialidad1)
         medico.agregar_especialidad(especialidad2)
-        esperado = "Medico: Dr. Jorge Jaramillo, Matrícula: MAT443, Especialidades: [Oftalmología (Días: lunes), Otorrinolaringología (Días: jueves, viernes)]"
+        esperado = "Medico: Dr. Jorge Jaramillo, MAT443, Especialidades: [Oftalmología (Días: lunes), Otorrinolaringología (Días: jueves, viernes)]"
         self.assertEqual(str(medico), esperado)

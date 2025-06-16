@@ -9,9 +9,9 @@ class TestPaciente(unittest.TestCase):
 
     def test_representacion_str_paciente(self):
         paciente = Paciente("Ana Lopez", "87654321", "15/05/1985")
-        self.assertEqual(str(paciente), "Paciente: Ana Lopez, 87654321, 15/05/1985")
+        self.assertEqual(str(paciente), "Ana Lopez, 87654321, 15/05/1985")
 
     def test_creacion_paciente_con_datos_diferentes(self):
         paciente = Paciente("Carlos Solari", "11223344", "10/10/2000")
         self.assertEqual(paciente.obtener_dni(), "11223344")
-        self.assertEqual(str(paciente), "Paciente: Carlos Solari, 11223344, 10/10/2000")
+        self.assertEqual(str(paciente), "Carlos Solari, 11223344, 10/10/2000")
