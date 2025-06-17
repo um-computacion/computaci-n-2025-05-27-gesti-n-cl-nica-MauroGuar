@@ -6,6 +6,9 @@ class Medico:
         self.__matricula__: str = matricula
         self.__especialidades__: list[Especialidad] = []
 
+    def obtener_nombre(self) -> str:
+        return self.__nombre__
+
     def obtener_matricula(self) -> str:
         return self.__matricula__
 
@@ -13,12 +16,13 @@ class Medico:
         if isinstance(especialidad, Especialidad):
             self.__especialidades__.append(especialidad)
 
-    def obtener_especialidad_para_dia(self, dia: str) -> str | None:
+    def obtener_especialidades_para_dia(self, dia: str) -> list[str]:
+        especialidades = []
         dia_lower = dia.lower()
         for esp in self.__especialidades__:
             if esp.verificar_dia(dia_lower):
-                return esp.obtener_especialidad()
-        return None
+                especialidades.append(esp.obtener_especialidad())
+        return especialidades
 
     def __str__(self) -> str:
         if not self.__especialidades__:

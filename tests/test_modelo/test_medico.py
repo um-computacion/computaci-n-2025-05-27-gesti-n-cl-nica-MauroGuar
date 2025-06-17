@@ -8,11 +8,17 @@ class TestMedico(unittest.TestCase):
         medico = Medico("Dr. Carlos Casas", "MAT123")
         self.assertEqual(medico.obtener_matricula(), "MAT123")
 
+    def test_obtener_nombre(self):
+        medico = Medico("Dr. Carlos Casas", "MAT123")
+        self.assertEqual(medico.obtener_nombre(), "Dr. Carlos Casas")
+
     def test_agregar_una_especialidad(self):
         medico = Medico("Dra. Ana Allen", "MAT456")
         especialidad_cardio = Especialidad("Cardiología", ["lunes", "miércoles"])
         medico.agregar_especialidad(especialidad_cardio)
-        self.assertEqual(medico.obtener_especialidad_para_dia("lunes"), "Cardiología")
+        especialidades = medico.obtener_especialidades_para_dia("lunes")
+        self.assertEqual(len(especialidades), 1)
+        self.assertEqual(especialidades[0], "Cardiología")
 
     def test_agregar_multiples_especialidades(self):
         medico = Medico("Dr. Luis Luna", "MAT789")
@@ -20,33 +26,45 @@ class TestMedico(unittest.TestCase):
         especialidad_derma = Especialidad("Dermatología", ["viernes"])
         medico.agregar_especialidad(especialidad_pedia)
         medico.agregar_especialidad(especialidad_derma)
-        self.assertEqual(medico.obtener_especialidad_para_dia("martes"), "Pediatría")
-        self.assertEqual(medico.obtener_especialidad_para_dia("viernes"), "Dermatología")
 
-    def test_obtener_especialidad_para_dia_disponible(self):
+        especialidades_martes = medico.obtener_especialidades_para_dia("martes")
+        self.assertEqual(len(especialidades_martes), 1)
+        self.assertEqual(especialidades_martes[0], "Pediatría")
+
+        especialidades_viernes = medico.obtener_especialidades_para_dia("viernes")
+        self.assertEqual(len(especialidades_viernes), 1)
+        self.assertEqual(especialidades_viernes[0], "Dermatología")
+
+    def test_obtener_especialidades_para_dia_disponible(self):
         medico = Medico("Dra. Laura Lee", "MAT101")
         especialidad_neuro = Especialidad("Neurología", ["lunes", "jueves"])
         medico.agregar_especialidad(especialidad_neuro)
-        self.assertEqual(medico.obtener_especialidad_para_dia("LUNES"), "Neurología")
+        especialidades = medico.obtener_especialidades_para_dia("LUNES")
+        self.assertEqual(len(especialidades), 1)
+        self.assertEqual(especialidades[0], "Neurología")
 
-    def test_obtener_especialidad_para_dia_no_disponible(self):
+    def test_obtener_especialidades_para_dia_no_disponible(self):
         medico = Medico("Dr. Pedro Paz", "MAT112")
         especialidad_trauma = Especialidad("Traumatología", ["miércoles"])
         medico.agregar_especialidad(especialidad_trauma)
-        self.assertIsNone(medico.obtener_especialidad_para_dia("martes"))
+        especialidades = medico.obtener_especialidades_para_dia("martes")
+        self.assertEqual(especialidades, [])
 
-    def test_obtener_especialidad_para_dia_sin_especialidades(self):
+    def test_obtener_especialidades_para_dia_sin_especialidades(self):
         medico = Medico("Dra. Sara Sol", "MAT113")
-        self.assertIsNone(medico.obtener_especialidad_para_dia("lunes"))
+        especialidades = medico.obtener_especialidades_para_dia("lunes")
+        self.assertEqual(especialidades, [])
 
-    def test_obtener_especialidad_para_dia_multiples_especialidades_mismo_dia_devuelve_primera(self):
+    def test_obtener_especialidades_para_dia_multiples_especialidades_mismo_dia(self):
         medico = Medico("Dr. Max Power", "MAT007")
         especialidad_general = Especialidad("Medicina General", ["lunes", "martes"])
         especialidad_deportes = Especialidad("Medicina Deportiva", ["lunes", "miércoles"])
         medico.agregar_especialidad(especialidad_general)
         medico.agregar_especialidad(especialidad_deportes)
-        self.assertEqual(medico.obtener_especialidad_para_dia("lunes"), "Medicina General")
-
+        especialidades = medico.obtener_especialidades_para_dia("lunes")
+        self.assertEqual(len(especialidades), 2)
+        self.assertIn("Medicina General", especialidades)
+        self.assertIn("Medicina Deportiva", especialidades)
 
     def test_representacion_str_medico_sin_especialidades(self):
         medico = Medico("Dr. Hugo Huesos", "MAT221")
