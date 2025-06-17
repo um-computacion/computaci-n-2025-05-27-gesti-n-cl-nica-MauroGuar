@@ -19,6 +19,8 @@ class Clinica:
         self.__turnos__: list[Turno] = []
         self.__historias_clinicas__: dict[str, HistoriaClinica] = {}
 
+
+    # Paciente
     def agregar_paciente(self, paciente: Paciente) -> None:
         dni_paciente = paciente.obtener_dni()
         if dni_paciente in self.__pacientes__:
@@ -29,12 +31,14 @@ class Clinica:
     def obtener_pacientes(self) -> list[Paciente]:
         return list(self.__pacientes__.values())
 
-    def validar_existencia_paciente(self, dni: str) -> Paciente:
+    def obtener_paciente_por_matricula(self, dni: str) -> Paciente:
         if dni in self.__pacientes__:
             return self.__pacientes__[dni]
         else:
             raise PacienteNoEncontradoException(f"No se encontró el paciente con DNI {dni}.")
 
+
+    # Medico
     def agregar_medico(self, medico: Medico) -> None:
         matricula_medico = medico.obtener_matricula()
         if matricula_medico in self.__medicos__:
@@ -51,21 +55,16 @@ class Clinica:
         else:
             raise MedicoNoEncontradoException(f"No se encontró el médico con matrícula {matricula}.")
 
-    def _parse_fecha_hora(self, fecha_hora_str: str) -> datetime | None:
-        try:
-            return datetime.strptime(fecha_hora_str, "%Y-%m-%d %H:%M")
-        except ValueError:
-            return None
 
-    def _obtener_dia_semana_en_espanol(self, fecha_hora: datetime) -> str:
-        return self.DIAS_SEMANA_ES[fecha_hora.weekday()]
-
+    # Historia clinica
     def obtener_historia_clinica(self, dni_paciente: str) -> HistoriaClinica:
-        self.validar_existencia_paciente(dni_paciente)
+        self.obtener_paciente_por_matricula(dni_paciente)
         return self.__historias_clinicas__[dni_paciente]
 
+
+    # Receta
     def emitir_receta(self, dni_paciente: str, matricula_medico: str, medicamentos: list[str] ) -> Receta:
-        paciente = self.validar_existencia_paciente(dni_paciente)
+        paciente = self.obtener_paciente_por_matricula(dni_paciente)
         medico = self.obtener_medico_por_matricula(matricula_medico)
 
         nueva_receta = Receta(paciente, medico, medicamentos)
@@ -76,8 +75,12 @@ class Clinica:
         return nueva_receta
 
 
+    # Turno
+    def obtener_turnos(self) -> list[Turno]:
+        return list(self.__turnos__)
+
     def agendar_turno(self, dni_paciente: str, matricula_medico: str, fecha_hora_str: str, nombre_especialidad_deseada: str) -> Turno:
-        paciente = self.validar_existencia_paciente(dni_paciente) # Lanza PacienteNoEncontradoException
+        paciente = self.obtener_paciente_por_matricula(dni_paciente) # Lanza PacienteNoEncontradoException
         medico = self.obtener_medico_por_matricula(matricula_medico) # Lanza MedicoNoEncontradoException
 
         fecha_hora_dt = self._parse_fecha_hora(fecha_hora_str)
@@ -113,3 +116,14 @@ class Clinica:
         historia_paciente.agregar_turno(nuevo_turno)
 
         return nuevo_turno
+
+
+    # Fechas
+    def _parse_fecha_hora(self, fecha_hora_str: str) -> datetime | None:
+        try:
+            return datetime.strptime(fecha_hora_str, "%Y-%m-%d %H:%M")
+        except ValueError:
+            return None
+
+    def _obtener_dia_semana_en_espanol(self, fecha_hora: datetime) -> str:
+        return self.DIAS_SEMANA_ES[fecha_hora.weekday()]

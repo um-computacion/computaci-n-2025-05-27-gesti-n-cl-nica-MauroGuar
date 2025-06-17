@@ -12,6 +12,20 @@ class TestMedico(unittest.TestCase):
         medico = Medico("Dr. Carlos Casas", "MAT123")
         self.assertEqual(medico.obtener_nombre(), "Dr. Carlos Casas")
 
+    def test_obtener_matricula(self):
+        medico = Medico("Dr. Mario Mendez", "MAT999")
+        self.assertEqual(medico.obtener_matricula(), "MAT999")
+
+    def test_obtener_especialidad(self):
+        medico = Medico("Dr. Mario Mendez", "MAT999")
+        especialidad_cardio = Especialidad("Cardiología", ["lunes", "miércoles"])
+        especialidad_pedia = Especialidad("Pediatría", ["martes", "jueves"])
+        medico.agregar_especialidad(especialidad_cardio)
+        medico.agregar_especialidad(especialidad_pedia)
+        self.assertIn(especialidad_cardio, medico.obtener_especialidades())
+        self.assertIn(especialidad_pedia, medico.obtener_especialidades())
+
+
     def test_agregar_una_especialidad(self):
         medico = Medico("Dra. Ana Allen", "MAT456")
         especialidad_cardio = Especialidad("Cardiología", ["lunes", "miércoles"])

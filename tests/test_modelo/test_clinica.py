@@ -61,11 +61,11 @@ class TestClinica(unittest.TestCase):
 
     def test_validar_existencia_paciente(self):
         self.clinica.agregar_paciente(self.paciente1)
-        paciente = self.clinica.validar_existencia_paciente("12345678")
+        paciente = self.clinica.obtener_paciente_por_matricula("12345678")
         self.assertEqual(paciente.obtener_nombre(), "Ignacio García")
 
         with self.assertRaises(PacienteNoEncontradoException):
-            self.clinica.validar_existencia_paciente("99999999")
+            self.clinica.obtener_paciente_por_matricula("99999999")
 
     def test_agregar_medico(self):
         self.clinica.agregar_medico(self.medico1)

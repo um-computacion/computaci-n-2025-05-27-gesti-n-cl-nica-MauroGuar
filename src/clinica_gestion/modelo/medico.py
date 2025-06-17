@@ -12,6 +12,9 @@ class Medico:
     def obtener_matricula(self) -> str:
         return self.__matricula__
 
+    def obtener_especialidades(self) -> list[Especialidad]:
+        return self.__especialidades__
+
     def agregar_especialidad(self, especialidad: Especialidad) -> None:
         if isinstance(especialidad, Especialidad):
             self.__especialidades__.append(especialidad)
